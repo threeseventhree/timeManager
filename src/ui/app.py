@@ -1,12 +1,13 @@
 from textual.app import App, ComposeResult
-from textual.widget import Widget
-from textual.widgets import Header, Footer, Label, Tabs, Tab, ContentSwitcher, Button
+from textual.widgets import Header, Footer, Label, Tabs, Tab, ContentSwitcher, Button, Static, Input
 from textual.containers import Container, HorizontalScroll
+from textual.screen import ModalScreen
 
 from src.storage.taskStorage import TaskStorage
 from src.managers.taskManager import TaskManager
 from src.models.task import Task
 from src.ui.widgets.taskWidget import TaskWidget
+from src.ui.widgets.AddTaskScreen import AddTaskScreen
 
 sampleTask: Task = Task("Finish Coding the Application", 60)
 storage = TaskStorage("data/tasks.json")
@@ -56,7 +57,6 @@ class TimeManagerApp(App):
         background: #111318;
     }
     """
-
     def __init__(self):
         super().__init__()
 
@@ -69,7 +69,7 @@ class TimeManagerApp(App):
         )
         with ContentSwitcher(initial="tasksScreen"):
             with Container(id="tasksScreen"):
-                with HorizontalScroll():
+                with HorizontalScroll(id="tasksContainer"):
                     for taskData in tasks:
                         yield TaskWidget(taskData, manager, classes="taskWidget")
                     yield Button("+ Add Task", id="addTask", classes="taskWidget")
@@ -82,7 +82,19 @@ class TimeManagerApp(App):
         self.query_one(ContentSwitcher).current = event.tab.id
     def on_button_pressed(self, event: Button.Pressed):
         if event.button.id == "addTask":
+            self.push_screen(
+                AddTaskScreen(manager),
+                self.addTask # type: ignore
+            ) # type: ignore
             pass
+    def addTask(self, task: Task):
+        tasksContainer = self.query_one("#tasksContainer")
+        addTaskButton = self.query_one("#addTask")
+
+        tasksContainer.mount(
+            TaskWidget(task, manager, classes="taskWidget"),
+            before=addTaskButton
+        )
 
 if __name__ == "__main__":
     TimeManagerApp().run()
