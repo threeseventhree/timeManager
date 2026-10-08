@@ -1,7 +1,19 @@
 [
     {
-        "id": "d254ba65-7b5f-4e39-9845-6da10e7eec73",
-        "name": "Finish Coding the Application",
+        "id": "5e98505e-aea4-4897-8b45-e8675d65504b",
+        "name": "Study Physics",
+        "duration": 60,
+        "completed": false
+    },
+    {
+        "id": "6b948e86-6486-404e-be90-52909efd585e",
+        "name": "Work on Musicbox",
+        "duration": 45,
+        "completed": false
+    },
+    {
+        "id": "9251ef4d-99b7-45a4-91a2-c9302b9e3c98",
+        "name": "Practice Fusion 3D",
         "duration": 60,
         "completed": false
     }
