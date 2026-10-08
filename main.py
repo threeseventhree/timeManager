@@ -1,20 +1,12 @@
 from src.models.task import Task
-from src.taskManager import TaskManager
-from uuid import uuid4
+from src.managers.taskManager import TaskManager
+from src.storage.taskStorage import TaskStorage
 sampleTask: Task = Task("Finish Coding the Application", 60)
 
 def main():
-    manager = TaskManager()
-    physics = Task("Study Physics", 60)
-    musicbox = Task("Work on Musicbox", 45)
-
-    manager.addTask(physics)
-    manager.addTask(musicbox)
-
-    print(physics)
-    print(musicbox)
-
-    manager.completeTask(physics)
-    print(manager.getTask(physics.id))
+    storage = TaskStorage("data/tasks.json")
+    manager = TaskManager(storage)
+    manager.taskList = storage.load()
+    print(manager.taskList)
 
 main()
