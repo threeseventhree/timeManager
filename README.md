@@ -31,7 +31,7 @@ The application combines a flexible daily/weekly scheduler with an activity-awar
 
 ## Development Status
 ```text
-[ ] Core application structure
+[x] Core application structure
 [ ] Task management
 [ ] Schedule system
 [ ] Free-time calculation

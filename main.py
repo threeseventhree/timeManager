@@ -12,6 +12,5 @@ def main():
     manager.addTask(Task("Work on Musicbox", 45))
     manager.addTask(Task("Practice Fusion 3D", 60))
 
-
 if __name__ == "__main__":
     TimeManagerApp().run()

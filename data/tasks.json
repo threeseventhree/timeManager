@@ -1,18 +1,18 @@
 [
     {
-        "id": "5e98505e-aea4-4897-8b45-e8675d65504b",
+        "id": "cf64c087-05af-4b56-b056-5a097b0cdbca",
         "name": "Study Physics",
         "duration": 60,
-        "completed": false
+        "completed": true
     },
     {
-        "id": "6b948e86-6486-404e-be90-52909efd585e",
+        "id": "fe609980-8c54-4435-86a3-648dd006d9dc",
         "name": "Work on Musicbox",
         "duration": 45,
         "completed": false
     },
     {
-        "id": "9251ef4d-99b7-45a4-91a2-c9302b9e3c98",
+        "id": "653997ba-9ce5-444e-a09f-99836170bc26",
         "name": "Practice Fusion 3D",
         "duration": 60,
         "completed": false

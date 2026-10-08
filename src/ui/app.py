@@ -1,38 +1,17 @@
 from textual.app import App, ComposeResult
 from textual.widget import Widget
-from textual.widgets import Header, Footer, Label, Checkbox
+from textual.widgets import Header, Footer, Label, Tabs, Tab, ContentSwitcher, Button
 from textual.containers import Container, HorizontalScroll
+
 from src.storage.taskStorage import TaskStorage
+from src.managers.taskManager import TaskManager
 from src.models.task import Task
+from src.ui.widgets.taskWidget import TaskWidget
 
 sampleTask: Task = Task("Finish Coding the Application", 60)
-
 storage = TaskStorage("data/tasks.json")
-tasks = storage.load()
-
-class TaskWidget(Widget):
-    def __init__(self, task: Task, **kwargs):
-        super().__init__(**kwargs)
-        self.taskData = task
-
-    def compose(self) -> ComposeResult:
-        with Container(id="task"):
-            yield Label(
-                self.taskData.name,
-                id="taskName"
-            )
-
-            yield Label(
-                f"Duration: {self.taskData.duration}min",
-                id="taskDuration"
-            )
-
-            yield Checkbox(
-                "Completed",
-                self.taskData.completed,
-                id="taskCheckbox"
-            )
-
+manager = TaskManager(storage)
+tasks = manager.taskList
 
 class TimeManagerApp(App):
     CSS = """
@@ -60,34 +39,13 @@ class TimeManagerApp(App):
         border: round #596273;
     }
 
-    #task {
-        width: 100%;
-        height: 100%;
-        padding: 1;
-    }
-
-    #taskName {
-        width: 100%;
-        height: 3;
-        content-align: left middle;
-        text-style: bold;
-        color: #f1f3f5;
-    }
-
-    #taskDuration {
-        width: 100%;
-        height: 1;
+    #addTask {
+        content-align: center middle;
         color: #858d9a;
     }
 
-    #taskCheckbox {
-        margin-top: 2;
-        color: #b8bec8;
-        border: none;
-    }
-
-    #taskCheckbox:focus {
-        border: none;
+    #addTask:hover {
+        color: #f1f3f5;
     }
 
     Header {
@@ -104,12 +62,27 @@ class TimeManagerApp(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-
-        with HorizontalScroll():
-            for taskData in tasks:
-                yield TaskWidget(taskData, classes="taskWidget")
+        yield Tabs(
+            Tab("Tasks", id="tasksScreen"),
+            Tab("Schedule", id="scheduleScreen"),
+            active="tasksScreen"
+        )
+        with ContentSwitcher(initial="tasksScreen"):
+            with Container(id="tasksScreen"):
+                with HorizontalScroll():
+                    for taskData in tasks:
+                        yield TaskWidget(taskData, manager, classes="taskWidget")
+                    yield Button("+ Add Task", id="addTask", classes="taskWidget")
+            with Container(id="scheduleScreen"):
+                yield Label("Schedule coming soon...")
 
         yield Footer(compact=True)
+
+    def on_tabs_tab_activated(self, event: Tabs.TabActivated):
+        self.query_one(ContentSwitcher).current = event.tab.id
+    def on_button_pressed(self, event: Button.Pressed):
+        if event.button.id == "addTask":
+            pass
 
 if __name__ == "__main__":
     TimeManagerApp().run()

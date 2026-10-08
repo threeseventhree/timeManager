@@ -4,22 +4,22 @@ from src.storage.taskStorage import TaskStorage
 class TaskManager():
     def __init__(self, storage: TaskStorage):
         self.storage = storage
-        self.taskList = []
+        self.taskList = self.storage.load()
 
     def addTask(self, task: Task):
         self.taskList.append(task)
-        self.save()
+        self.saveTasks()
     def removeTask(self, id: UUID):
         task = self.getTask(id)
         if task is None:
             return False
         self.taskList.remove(task)
-        self.save()
+        self.saveTasks()
         return True
 
-    def completeTask(self, task: Task):
-        task.completed = True
-        self.save()
+    def setCompleted(self, task: Task, completed: bool):
+        task.completed = completed
+        self.saveTasks()
 
     def getTask(self, id: UUID):
         for task in self.taskList:
@@ -29,5 +29,5 @@ class TaskManager():
     def getAllTasks(self):
         return self.taskList
 
-    def save(self):
+    def saveTasks(self):
         self.storage.save(self.taskList)
