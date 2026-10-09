@@ -1,20 +1,20 @@
-import json
 from pathlib import Path
-from src.models.task import Task
+import json
+from src.models.scheduleItem import ScheduleItem
 
-class TaskStorage:
+class ScheduleItemStorage:
     def __init__(self, path: str):
         self.path = Path(path)
 
-    def save(self, tasks: list[Task]):
+    def saveItems(self, scheduleItems: list[ScheduleItem]):
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        data = [task.toDict() for task in tasks]
+        data = [scheduleItem.toDict() for scheduleItem in scheduleItems]
         with open(self.path, "w") as file:
             json.dump(data, file, indent=4)
-
-    def load(self) -> list[Task]:
+        
+    def loadItems(self) -> list[ScheduleItem]:
         if not self.path.exists():
             return []
         with open(self.path, "r") as file:
             data = json.load(file)
-        return [Task.fromDict(task) for task in data]
+        return [ScheduleItem.fromDict(scheduleItem) for scheduleItem in data]

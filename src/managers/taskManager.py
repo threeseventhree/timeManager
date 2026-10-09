@@ -9,6 +9,7 @@ class TaskManager():
     def addTask(self, task: Task):
         self.taskList.append(task)
         self.saveTasks()
+        
     def removeTask(self, id: UUID):
         task = self.getTask(id)
         if task is None:
@@ -25,9 +26,6 @@ class TaskManager():
         for task in self.taskList:
             if(task.id == id): return task
         return None
-
-    def getAllTasks(self):
-        return self.taskList
 
     def saveTasks(self):
         self.storage.save(self.taskList)

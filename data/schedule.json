@@ -1,0 +1,37 @@
+[
+    {
+        "id": "31ac873f-1e76-43c2-8927-9d98b4e667a4",
+        "name": "School",
+        "day": "Monday",
+        "startTime": "13:00",
+        "endTime": "18:30"
+    },
+    {
+        "id": "fbb32898-d33b-4286-a2eb-cb8ad5b55e8e",
+        "name": "School",
+        "day": "Tuesday",
+        "startTime": "9:45",
+        "endTime": "13:00"
+    },
+    {
+        "id": "871f8f4c-1f02-4e94-b24e-397eeb8a1734",
+        "name": "School",
+        "day": "Wednesday",
+        "startTime": "13:30",
+        "endTime": "18:30"
+    },
+    {
+        "id": "0e72309b-fd58-46c0-9c24-d436c35b960d",
+        "name": "School",
+        "day": "Thursday",
+        "startTime": "13:30",
+        "endTime": "18:30"
+    },
+    {
+        "id": "559324b8-6b0a-4ad0-9171-3c5144030b9c",
+        "name": "School",
+        "day": "Friday",
+        "startTime": "15:15",
+        "endTime": "18:30"
+    }
+]

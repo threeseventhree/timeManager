@@ -1,18 +1,21 @@
 from dataclasses import dataclass, field
 from uuid import UUID, uuid4
+
 @dataclass
-class Task:
+class ScheduleItem:
     name: str
-    duration: int
-    completed: bool = False
+    day: str
+    startTime: str
+    endTime: str
     id: UUID = field(default_factory=uuid4)
-    
+
     def toDict(self):
         return {
             "id": str(self.id),
             "name": self.name,
-            "duration": self.duration,
-            "completed": self.completed
+            "day": self.day,
+            "startTime": self.startTime,
+            "endTime": self.endTime,
         }
 
     @classmethod
@@ -20,6 +23,7 @@ class Task:
         return cls(
             id=UUID(data["id"]),
             name=data["name"],
-            duration=data["duration"],
-            completed=data["completed"]
+            day=data["day"],
+            startTime=data["startTime"],
+            endTime=data["endTime"]
         )
