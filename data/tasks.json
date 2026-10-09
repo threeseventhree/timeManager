@@ -10,5 +10,11 @@
         "name": "Work on Musicbox",
         "duration": 45,
         "completed": false
+    },
+    {
+        "id": "a5891f29-6f45-4f2b-aa26-b97e2b648d1c",
+        "name": "Finish Schedules",
+        "duration": 60,
+        "completed": false
     }
 ]

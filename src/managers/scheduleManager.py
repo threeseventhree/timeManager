@@ -23,11 +23,10 @@ class ScheduleManager:
         return True
 
     def getItemsForDay(self, day: str) -> list[ScheduleItem]:
-        return [
-            item for item in self.itemList
-            if item.day == day
-        ]
-
+        items: list[ScheduleItem] = []
+        for item in self.itemList:
+            if(item.day == day): items.append(item) 
+        return items
     def getAllItems(self) -> list[ScheduleItem]:
         return self.itemList
 

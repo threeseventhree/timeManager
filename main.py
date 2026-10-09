@@ -13,7 +13,6 @@ school = ScheduleItem(
     startTime="08:00",
     endTime="14:00"
 )
-
 def main():
     storage = TaskStorage("data/tasks.json")
     # manager = TaskManager(storage)
