@@ -33,5 +33,40 @@
         "day": "Friday",
         "startTime": "15:15",
         "endTime": "18:30"
+    },
+    {
+        "id": "dc4d5c51-23ec-4b1a-9653-6b6483fc34f3",
+        "name": "Sleep",
+        "day": "Friday",
+        "startTime": "22:00",
+        "endTime": "00:00"
+    },
+    {
+        "id": "6ecb5769-d16c-4051-92e5-3ef4871885b4",
+        "name": "Trade",
+        "day": "Friday",
+        "startTime": "10:00",
+        "endTime": "11:00"
+    },
+    {
+        "id": "14b7c3b3-a1e4-4100-abe1-d23397bef01a",
+        "name": "Chess",
+        "day": "Friday",
+        "startTime": "9:00",
+        "endTime": "9:45"
+    },
+    {
+        "id": "e14fa22f-2638-4316-a37d-5c14574aaf6b",
+        "name": "Trade",
+        "day": "Monday",
+        "startTime": "10:00",
+        "endTime": "11:00"
+    },
+    {
+        "id": "b0f41460-4693-45e0-88a0-3dd0dc91a482",
+        "name": "Trade",
+        "day": "Tuesday",
+        "startTime": "17:00",
+        "endTime": "18:00"
     }
 ]

@@ -5,6 +5,7 @@ from textual.containers import Container, HorizontalScroll, Vertical
 # Widgets
 from src.ui.widgets.taskWidget import TaskWidget
 from src.ui.widgets.AddTaskScreen import AddTaskScreen
+from src.ui.widgets.AddScheduleItemScreen import AddScheduleItemScreen
 from src.ui.widgets.ScheduleItemWidget import ScheduleItemWidget
 # Managers
 from src.managers.taskManager import TaskManager
@@ -14,6 +15,7 @@ from src.storage.scheduleItemStorage import ScheduleItemStorage
 from src.storage.taskStorage import TaskStorage
 # Models
 from src.models.task import Task
+from src.models.scheduleItem import ScheduleItem
 # Misc
 from datetime import datetime
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -117,7 +119,7 @@ class TimeManagerApp(App):
         yield Tabs(
             Tab("Tasks", id="tasksTab"),
             Tab("Schedule", id="scheduleTab"),
-            active="tasksTab"
+            active="scheduleTab"
         )
         with ContentSwitcher(initial="tasksScreen"):
             with Container(id="tasksScreen"):
@@ -127,18 +129,19 @@ class TimeManagerApp(App):
                     yield Button("+ Add Task", id="addTask", classes="taskWidget")
             with Container(id="scheduleScreen"):
                 with Vertical(id="scheduleContainer"):
+                    yield Button("+ Add Schedule Item", id="addSchedule", classes="scheduleItem")
                     today = DAYS[datetime.now().weekday()]
                     for day in DAYS:
                         dayItems = sorted(
                             (item for item in scheduleItems if item.day == day),
                             key=lambda item: timeToMinutes(item.startTime)
                         )
-                        with Collapsible(title=day, collapsed=(day != today)):
+                        with Collapsible(title=day, collapsed=(day != today), id=f"{day.lower()}Section"):
                             if dayItems:
                                 for scheduleItem in dayItems:
                                     yield ScheduleItemWidget(scheduleItem)
                             else:
-                                yield Label("No schedule items yet")
+                                yield Label("No schedule items yet", classes="emptyLabel")
             
         yield Footer(compact=True)
 
@@ -147,15 +150,20 @@ class TimeManagerApp(App):
             "tasksTab": "tasksScreen",
             "scheduleTab": "scheduleScreen"
         }
-    
         self.query_one(ContentSwitcher).current = screenMap[event.tab.id]
+
     def on_button_pressed(self, event: Button.Pressed):
         if event.button.id == "addTask":
             self.push_screen(
                 AddTaskScreen(taskManager),
-                self.addTask # type: ignore
-            ) # type: ignore
-            pass
+                self.addTask
+            )
+        if event.button.id == "addSchedule":
+            self.push_screen(
+                AddScheduleItemScreen(scheduleManager),
+                self.addScheduleItem
+            )
+
     def addTask(self, task: Task):
         tasksContainer = self.query_one("#tasksContainer")
         addTaskButton = self.query_one("#addTask")
@@ -164,6 +172,23 @@ class TimeManagerApp(App):
             TaskWidget(task, taskManager, classes="taskWidget"),
             before=addTaskButton
         )
+
+    def addScheduleItem(self, scheduleItem: ScheduleItem):
+        daySection = self.query_one(
+            f"#{scheduleItem.day.lower()}Section",
+            Collapsible
+        )
+        contents = daySection.query_one(Collapsible.Contents)
+        contents.query(".emptyLabel").remove()
+
+        newWidget = ScheduleItemWidget(scheduleItem)
+        newStart = timeToMinutes(scheduleItem.startTime)
+
+        for existing in contents.query(ScheduleItemWidget):
+            if timeToMinutes(existing.scheduleItem.startTime) > newStart:
+                contents.mount(newWidget, before=existing)
+                return
+        contents.mount(newWidget)
 
 if __name__ == "__main__":
     TimeManagerApp().run()
